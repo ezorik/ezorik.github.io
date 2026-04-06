@@ -258,7 +258,7 @@ profile:
     # 头像配置 (相对于 /public 目录)
     avatar: "/assets/images/avatar.jpg"
     # 信息配置
-    name: "Twilight"
+    name: "Ezorin"
     # 简介配置
     bio: "Hi"
     # 链接配置
