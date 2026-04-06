@@ -5,7 +5,7 @@ site:
     # 站点标题
     title: "ezorin"
     # 站点副标题
-    subtitle: "Blog Template"
+    subtitle: "Ezorin's Personal Space"
     # 语言配置
     lang: "en"
     # 翻译配置
@@ -53,13 +53,17 @@ site:
         src:
             # 桌面壁纸图片 (相对于 /public 目录; 支持单张图片或图片数组，当数组长度 > 1 时自动启用轮播)
             desktop:
-                - "/assets/images/desktopWallpaper_1.jpg"
-                - "/assets/images/desktopWallpaper_2.jpg"
-                - "/assets/images/desktopWallpaper_3.jpg"
+                # - "/assets/images/desktopWallpaper_1.jpg"
+                # - "/assets/images/desktopWallpaper_2.jpg"
+                # - "/assets/images/desktopWallpaper_3.jpg"
+                - "https://t.alcy.cc/ycy"
+                - "https://t.alcy.cc/ycy"
             # 移动壁纸图片 (相对于 /public 目录; 支持单张图片或图片数组，当数组长度 > 1 时自动启用轮播)
             mobile:
-                - "/assets/images/mobileWallpaper_1.jpg"
-                - "/assets/images/mobileWallpaper_2.jpg"
+                # - "/assets/images/mobileWallpaper_1.jpg"
+                # - "/assets/images/mobileWallpaper_2.jpg"
+                - "https://t.alcy.cc/ycy"
+                - "https://t.alcy.cc/ycy"
         # 壁纸位置 ('top' | 'center' | 'bottom')
         position: "center"
         # 轮播配置 (fullscreen 和 banner 模式共享)
@@ -256,7 +260,7 @@ sidebar:
 # 资料配置
 profile:
     # 头像配置 (相对于 /public 目录)
-    avatar: "/assets/images/avatar.jpg"
+    avatar: "https://avatars.githubusercontent.com/ezorik"
     # 信息配置
     name: "Ezorin"
     # 简介配置
@@ -269,7 +273,7 @@ profile:
             # 图标
             icon: "fa6-brands:github"
             # 链接
-            url: "https://github.com/Spr-Aachen/Twilight"
+            url: "https://github.com/ezorik"
 
 # 公告配置
 announcement:
