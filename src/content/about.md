@@ -1,23 +1,21 @@
-# About This Site
+# 关于我 / About Me
 
-Twilight is a CMS integrated static blog template built with [Astro](https://astro.build) framework.
+你好！我是 **Ezorin** 👋  
+::github{repo="ezorik/Twilight"}  
+欢迎来到我的个人博客。这里是我的数字花园，我会在这里记录我的技术探索、生活日常和一些奇思妙想。
 
-::github{repo="Spr-Aachen/Twilight"}
+## 🛠️ 我的技能
+* 正在学习 Web前端
+* 喜欢折腾各种有趣的项目
 
+## 🌟 我的爱好
+* 听音乐（特别喜欢某某风格）
+* 看番剧、玩游戏...
+* ...
 
-## Milestones
+## 📬 找到我
+* **GitHub**: [ezorik](https://github.com/ezorik)
+* **Email**: zaooen@qq.com
 
-- Integrated content management system in [#1](https://github.com/Spr-Aachen/Twilight/pull/1)
-- Seamless wallpaper mode switching in [#2](https://github.com/Spr-Aachen/Twilight/pull/2)
-- Dynamic content container response in [#47](https://github.com/Spr-Aachen/Twilight/pull/47)
-- Seamless page component loading in [#48](https://github.com/Spr-Aachen/Twilight/pull/48)
-- Smart music playback handling in [#49](https://github.com/Spr-Aachen/Twilight/pull/49)
-- Infinite-level navigation system in [#50](https://github.com/Spr-Aachen/Twilight/pull/50)
-- Comprehensive statistics dashboard in [#51](https://github.com/Spr-Aachen/Twilight/pull/51)
-- Low-barrier configuration scheme in [#58](https://github.com/Spr-Aachen/Twilight/pull/58)
-- Dynamic breakpoint handling in [#68](https://github.com/Spr-Aachen/Twilight/pull/68)
-- Advanced content management in [#73](https://github.com/Spr-Aachen/Twilight/pull/73)
-- Nested category support in [#74](https://github.com/Spr-Aachen/Twilight/pull/74)
-- Comprehensive music card plugin in [#81](https://github.com/Spr-Aachen/Twilight/pull/81)
-- Refactored DecapCMS OAuth integration in [#107](https://github.com/Spr-Aachen/Twilight/pull/107)
-- Non-breaking PagesCMS support in [#114](https://github.com/Spr-Aachen/Twilight/pull/114)
+---
+> "Illuminate Our Paths"
