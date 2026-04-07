@@ -1,0 +1,75 @@
+---
+export const prerender = true;
+
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+import { PAGE_SIZE } from "@constants/constants";
+import GridLayout from "@layouts/grid.astro";
+import BackwardButton from "@components/backwardButton.astro";
+import Pagination from "@components/pagination.astro";
+
+export const getStaticPaths = (async ({ paginate }) => {
+    const allNotes = await getCollection("notes");
+    const sortedNotes = allNotes.sort((a, b) => 
+        b.data.published.valueOf() - a.data.published.valueOf()
+    );
+    return paginate(sortedNotes, { pageSize: PAGE_SIZE });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+
+// 格式化日期的简易函数
+const formatMonthDay = (date: Date) => {
+  return new Intl.DateTimeFormat('zh-CN', { month: '2-digit', day: '2-digit' }).format(date);
+};
+---
+
+<GridLayout title="Notes" description="随笔与日常记录">
+    <div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">
+        <div class="card-base z-10 px-9 py-6 relative w-full ">
+            <BackwardButton currentPath={Astro.url.pathname} />
+            
+            <header class="mb-12">
+                <h1 class="text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-3">Notes</h1>
+                <p class="text-neutral-600 dark:text-neutral-400">随笔与日常记录</p>
+            </header>
+
+            <div class="relative ml-4 md:ml-8 border-l-2 border-black/5 dark:border-white/5 pb-8">
+                {page.data.map((note, index) => {
+                    const pureId = note.id.replace(/\.[^/.]+$/, "");
+                    const date = new Date(note.data.published);
+                    
+                    return (
+                        <div class="mb-10 ml-6 relative">
+                            {/* 时间线上的小圆点 */}
+                            <div class="absolute -left-[33px] top-1.5 w-4 h-4 rounded-full bg-white dark:bg-zinc-900 border-2 border-(--primary) z-10"></div>
+                            
+                            <a 
+                                href={`/notes/${pureId}/`} 
+                                class="block transition-all group"
+                            >
+                                <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-6">
+                                    <span class="text-sm font-mono text-black/30 dark:text-white/30 whitespace-nowrap">
+                                        {formatMonthDay(date)}
+                                    </span>
+                                    <h2 class="text-xl font-bold text-black/80 dark:text-white/80 group-hover:text-(--primary) transition-colors">
+                                        {note.data.title}
+                                    </h2>
+                                </div>
+                                {note.data.description && (
+                                    <p class="mt-2 text-sm text-black/50 dark:text-white/50 line-clamp-2 ml-0 sm:ml-[68px]">
+                                        {note.data.description}
+                                    </p>
+                                )}
+                            </a>
+                        </div>
+                    );
+                })}
+            </div>
+
+            <div class="mt-8">
+                <Pagination page={page}></Pagination>
+            </div>
+        </div>
+    </div>
+</GridLayout>

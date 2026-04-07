@@ -174,6 +174,9 @@ navbar:
             "Home"
         - # 一级导航链接 - 归档 (预设)
             "Archive"
+        - name: "随笔"
+          url: "/notes/"
+          icon: "material-symbols:notes-rounded" # 这是一个配套的图标
         - # 一级导航链接 - 展览 (自定义)
             # 导航名称
             name: "展覽"

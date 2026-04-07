@@ -1,0 +1,148 @@
+---
+import { Icon } from "astro-icon/components";
+import { render, getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+
+import { siteConfig, profileConfig, postConfig } from "@/config";
+import { formatDateToYYYYMMDD } from "@utils/date";
+import { getFileDirFromPath, removeFileExtension } from "@utils/url";
+import { SUPPORTED_LANGUAGES, langToTranslateMap } from "@i18n/language";
+import { i18n, getTranslation } from "@i18n/translation";
+import I18nKey from "@i18n/i18nKey";
+import License from "@components/post/license.astro";
+import Markdown from "@components/common/markdown.astro";
+import ImageWrapper from "@components/common/imageWrapper.astro";
+import Comment from "@components/post/comment.astro";
+import PasswordProtection from "@components/common/passwordProtection.astro";
+import PostMetadata from "@components/post/postMeta.astro";
+import GridLayout from "@layouts/grid.astro";
+
+export async function getStaticPaths() {
+    const noteEntries = await getCollection("notes");
+    return noteEntries.map(entry => {
+        const slug = entry.id.replace(/\.[^/.]+$/, ""); // 这里的 slug 变量名必须对应文件名
+        return {
+            params: { slug }, 
+            props: { entry },
+        };
+    });
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const { remarkPluginFrontmatter } = await render(entry);
+
+let isEncrypted = !!(entry.data.encrypted && entry.data.password);
+
+dayjs.extend(utc);
+const lastModified = dayjs(entry.data.updated || entry.data.published)
+    .utc()
+    .format("YYYY-MM-DDTHH:mm:ss");
+
+const lastModifiedKeys = [
+    I18nKey.lastModifiedPrefix, I18nKey.year, I18nKey.month,
+    I18nKey.day, I18nKey.hour, I18nKey.minute, I18nKey.second
+];
+
+const lastModifiedTranslations = {};
+for (const lang of SUPPORTED_LANGUAGES) {
+    const translateCode = langToTranslateMap[lang];
+    lastModifiedTranslations[translateCode] = {};
+    const translation = getTranslation(lang);
+    for (const key of lastModifiedKeys) {
+        lastModifiedTranslations[translateCode][key] = translation[key];
+    }
+}
+
+const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: entry.data.title,
+    description: entry.data.description || entry.data.title,
+    keywords: entry.data.tags,
+    author: {
+        "@type": "Person",
+        name: profileConfig.name,
+        url: Astro.site,
+    },
+    datePublished: formatDateToYYYYMMDD(entry.data.published),
+    inLanguage: entry.data.lang
+        ? entry.data.lang.replace("_", "-")
+        : siteConfig.lang.replace("_", "-"),
+};
+
+// 手动拼接 URL 供元数据组件使用，防止其生成 /posts/ 路径 [cite: 46]
+const currentNoteUrl = `/notes/${removeFileExtension(entry.id)}/`;
+---
+
+<GridLayout
+    banner={entry.data.cover}
+    title={entry.data.title}
+    description={entry.data.description}
+    lang={entry.data.lang}
+    setOGTypeArticle={true}
+    postSlug={entry.id}
+    headings={headings}
+>
+    <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <div class="flex w-full rounded-(--radius-large) overflow-hidden relative mb-4">
+        <div id="post-container" class="card-base z-10 px-6 md:px-9 pt-6 pb-4 relative w-full">
+            
+            <div class="flex flex-row text-black/30 dark:text-white/30 gap-5 mb-3 transition onload-animation-up">
+                <div class="flex flex-row items-center">
+                    <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2">
+                        <Icon name="material-symbols:notes-rounded" />
+                    </div>
+                    <div class="text-sm">
+                        {remarkPluginFrontmatter.words} {i18n(I18nKey.wordsCount)}
+                    </div>
+                </div>
+                <div class="flex flex-row items-center">
+                    <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2">
+                        <Icon name="material-symbols:schedule-outline-rounded" />
+                    </div>
+                    <div class="text-sm">
+                        {remarkPluginFrontmatter.minutes} {i18n(remarkPluginFrontmatter.minutes === 1 ? I18nKey.minuteCount : I18nKey.minutesCount)}
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative onload-animation-up">
+                <div class="transition w-full block font-bold mb-3 text-3xl md:text-[2.25rem]/[2.75rem] text-black/90 dark:text-white/90 md:before:w-1 before:h-5 before:rounded-md before:bg-(--primary) before:absolute before:top-3 before:-left-4.5">
+                    {entry.data.title}
+                </div>
+            </div>
+
+            <div class="onload-animation-up">
+                <PostMetadata
+                    className="mb-5"
+                    published={entry.data.published}
+                    updated={entry.data.updated}
+                    tags={entry.data.tags}
+                    category={entry.data.category}
+                    postUrl={currentNoteUrl} 
+                />
+            </div>
+
+            <PasswordProtection isEncrypted={isEncrypted} password={entry.data.password}>
+                <Markdown class="mb-6 markdown-content onload-animation-up">
+                    <Content />
+                </Markdown>
+                {postConfig.license.enable && (
+                    <License
+                        title={entry.data.title}
+                        id={entry.id}
+                        pubDate={entry.data.published}
+                        author={entry.data.author}
+                        postUrl={currentNoteUrl}
+                        class="mb-6 rounded-xl license-container onload-animation-up"
+                    />
+                )}
+            </PasswordProtection>
+        </div>
+    </div>
+
+    <Comment post={entry} />
+</GridLayout>

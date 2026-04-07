@@ -65,7 +65,46 @@ const specCollection = defineCollection({
     schema: z.object({}),
 });
 
+// export const collections = {
+//     posts: postsCollection,
+//     spec: specCollection,
+// };
+
+// 👇 从这里开始是你新加的代码：定义 notesCollection
+const notesCollection = defineCollection({
+    // 注意看这里！它会去专门读取 src/content/notes 文件夹下的 markdown 文件
+    loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: "./src/content/notes" }),
+    // 为了省事和统一，这里的 schema 直接完全照抄 postsCollection 的
+    schema: z.object({
+        title: z.string(),
+        published: dateSchema,
+        updated: optionalDateSchema,
+        description: z.string().optional().default(""),
+        cover: z.string().optional().default(""),
+        coverInContent: z.boolean().optional().default(false),
+        category: categorySchema,
+        tags: tagsSchema,
+        lang: z.string().optional().default(""),
+        pinned: z.boolean().optional().default(false),
+        author: z.string().optional().default(""),
+        sourceLink: z.string().optional().default(""),
+        licenseName: z.string().optional().default(""),
+        licenseUrl: z.string().optional().default(""),
+        comment: z.boolean().optional().default(true),
+        draft: z.boolean().optional().default(false),
+        encrypted: z.boolean().optional().default(false),
+        password: z.string().optional().default(""),
+        routeName: z.string().optional(),
+        prevTitle: z.string().default(""),
+        prevSlug: z.string().default(""),
+        nextTitle: z.string().default(""),
+        nextSlug: z.string().default(""),
+    }),
+});
+
+// 👇 最后，记得在导出列表里把 notes 加上！
 export const collections = {
     posts: postsCollection,
     spec: specCollection,
+    notes: notesCollection, // 添加了这一行
 };
