@@ -48,7 +48,7 @@ site:
     # 壁纸配置
     wallpaper:
         # 模式 ("banner" 横幅 | "fullscreen" 全屏 | "none" 纯色)
-        mode: "fullscreen"
+        mode: "none"
         # 图片源配置 (fullscreen 和 banner 模式共享)
         src:
             # 桌面壁纸图片 (相对于 /public 目录; 支持单张图片或图片数组，当数组长度 > 1 时自动启用轮播)
