@@ -3,7 +3,7 @@ title: 'Fork仓库同步与冲突解决'
 published: '2026-04-07'
 pinned: true
 description: '关于对Fork仓库同步与冲突解决'
-cover: 'https://t.alcy.cc/pc'
+#cover: 'https://t.alcy.cc/pc'
 tags: ["Github", "blog"]
 category: Github
 draft: false
