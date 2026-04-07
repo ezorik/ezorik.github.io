@@ -1,9 +1,9 @@
 {
-    "title": "Album Example",
+    "title": "Album",
     "description": "This is an example album.",
     "cover": "https://picsum.photos/800/600?random=1",
     "date": "2025-01-01T00:00:00.000Z",
-    "location": "Unknown",
+    "location": "苏州",
     "tags": ["example"],
     "layout": "masonry",
     "columns": 3,
