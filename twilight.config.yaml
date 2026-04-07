@@ -11,7 +11,7 @@ site:
     # 翻译配置
     translate:
         # 启用翻译功能
-        enable: false
+        enable: true
         # 翻译服务
         service: "client.edge"
         # 显示语言选择下拉框

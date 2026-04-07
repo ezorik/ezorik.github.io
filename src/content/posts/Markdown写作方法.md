@@ -1,7 +1,7 @@
 ---
 title: 'Markdown语法'
 published: '2026-04-07'
-pinned: true
+pinned: false
 description: '关于Markdown的语法学习'
 cover: 'https://t.alcy.cc/pc'
 tags: ["Markdown", "blog"]
